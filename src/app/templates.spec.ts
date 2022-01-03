@@ -25,7 +25,7 @@ class Template {
 
   private expressionStart = '${';
   private expressionEnd = '}';
-  private expressionRegexp = /\${\w+}/;
+  private expressionRegExp = /\${\w+}/;
 
   constructor(private text: string) {
   }
@@ -36,19 +36,15 @@ class Template {
     return result;
   }
 
-  private substitute(parameters: {}): string {
-    let result = this.text;
-    for (let key in parameters) {
-      if (parameters.hasOwnProperty(key)) {
-        // @ts-ignore
-        result = result.replace(this.expression(key), parameters[key])
-      }
-    }
+  private substitute(parameters: any): string {
+    const result = Object.keys(parameters)
+      .reduce((result, key) => result.replace(this.expression(key), parameters[key]), this.text);
+    this.validate(result);
     return result;
   }
 
   private validate(result: string) {
-    if (this.expressionRegexp.test(result)) {
+    if (this.expressionRegExp.test(result)) {
       throw new Error('Illegal argument exception');
     }
   }

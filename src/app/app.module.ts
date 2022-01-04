@@ -8,12 +8,16 @@ import {HttpClientModule} from "@angular/common/http";
 import {RemoteExchangeRateRepository} from "./payments/remote-exchange-rate.repository";
 import { CounterComponent } from './counter/counter.component';
 import { ExchangeRateComponent } from './payments/exchange-rate/exchange-rate.component';
+import { UppercaseDirective } from './uppercase.directive';
+import {HighlightDirective} from "./highlight.directive";
 
 @NgModule({
   declarations: [
     AppComponent,
     CounterComponent,
-    ExchangeRateComponent
+    ExchangeRateComponent,
+    UppercaseDirective,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,

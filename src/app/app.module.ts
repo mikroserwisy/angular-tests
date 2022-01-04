@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {CurrencyService} from "./payments/currency.service";
-import {ExchangeRate} from "./payments/exchange-rate";
-import {ExchangeRateFake} from "./payments/exchange-rate.fake";
+import {HttpClientModule} from "@angular/common/http";
+import {RemoteExchangeRateRepository} from "./payments/remote-exchange-rate.repository";
 
 @NgModule({
   declarations: [
@@ -13,11 +13,12 @@ import {ExchangeRateFake} from "./payments/exchange-rate.fake";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     CurrencyService,
-    { provide: 'ExchangeRate', useValue: new ExchangeRateFake()}
+    RemoteExchangeRateRepository,
   ],
   bootstrap: [AppComponent]
 })

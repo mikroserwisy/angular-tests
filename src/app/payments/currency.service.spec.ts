@@ -1,20 +1,26 @@
 import {CurrencyService} from './currency.service';
-import {ExchangeRateModel} from "./exchange-rate.model";
 import {ExchangeRate} from "./exchange-rate";
 import {TestBed} from "@angular/core/testing";
+import {RemoteExchangeRateRepository} from "./remote-exchange-rate.repository";
+import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs";
+import {ExchangeRateModel} from "./exchange-rate.model";
 
 describe('CurrencyService', () => {
   let service: CurrencyService;
+  let httpClient: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
-    const exchangeRateStub = jasmine.createSpyObj('ExchangeRate', ['getRates']);
-    exchangeRateStub.getRates.and.returnValue(of([new ExchangeRateModel('pl', 4.0)]));
+    // const exchangeRateStub = jasmine.createSpyObj('ExchangeRate', ['getRates']);
+    // exchangeRateStub.getRates.and.returnValue(of([new ExchangeRateModel('pl', 4.0)]));
+
+    httpClient = jasmine.createSpyObj('HttpClient', ['get']);
+    const exchangeRate = new RemoteExchangeRateRepository(httpClient);
 
     TestBed.configureTestingModule({
         providers: [
           CurrencyService,
-          { provide: 'ExchangeRate', useValue: exchangeRateStub }
+          { provide: 'ExchangeRate', useValue: exchangeRate }
         ]
       });
 
@@ -35,6 +41,8 @@ describe('CurrencyService', () => {
 
     // const exchangeRate = service.getExchangeRate('pl');
     // expect(exchangeRate?.value).toBe(4.0);
+
+    httpClient.get.and.returnValue(of([new ExchangeRateModel('pl', 4.0)]));
 
     service.getExchangeRate('pl').subscribe(exchangeRate => {
       expect(exchangeRate.value).toBe(4.0);

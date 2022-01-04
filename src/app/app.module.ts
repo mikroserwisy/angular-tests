@@ -6,10 +6,12 @@ import {AppComponent} from './app.component';
 import {CurrencyService} from "./payments/currency.service";
 import {HttpClientModule} from "@angular/common/http";
 import {RemoteExchangeRateRepository} from "./payments/remote-exchange-rate.repository";
+import { CounterComponent } from './counter/counter.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CounterComponent
   ],
   imports: [
     BrowserModule,

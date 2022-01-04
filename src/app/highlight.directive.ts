@@ -15,7 +15,6 @@ export class HighlightDirective {
 
   @HostListener('mouseenter')
   mouseEnter() {
-    console.log('asaa');
     this.highlight(this.color || 'yellow');
   }
 

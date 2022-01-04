@@ -1,9 +1,10 @@
-import {Component} from "@angular/core";
+import {Component, DebugElement} from "@angular/core";
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {HighlightDirective} from "./highlight.directive";
+import {By} from "@angular/platform-browser";
 
 @Component({
-  template: `<p appHighlight>Test</p>`
+  template: `<p appHighlight color="blue">Test</p>`
 })
 class UpperCaseTestComponent {
 }
@@ -26,11 +27,12 @@ describe('UppercaseDirective', () => {
   });
 
   it('should set text to uppercase', () => {
-    const paragraph: HTMLElement = fixture.nativeElement;
-    paragraph.dispatchEvent(new Event('mouseenter'));
+    const paragraph: DebugElement = fixture.debugElement.query(By.css('p'));
+    //paragraph.dispatchEvent(new Event('mouseenter', {bubbles: true, composed: true, cancelable: false}));
+    paragraph.triggerEventHandler('mouseenter', {});
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(paragraph.style.backgroundColor).toBe('blue');
+      expect(paragraph.nativeElement.style.color).toBe('blue');
     });
   });
 

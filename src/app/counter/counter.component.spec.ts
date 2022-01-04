@@ -2,11 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CounterComponent } from './counter.component';
 import {first} from "rxjs";
+import {Router} from "@angular/router";
 
 describe('CounterComponent', () => {
 
+  const router = jasmine.createSpyObj('Router', ['navigateByUrl']);
+
   it("#increment() should increment value by 2", () => {
-    const counter = new CounterComponent();
+    const counter = new CounterComponent(router);
     counter.value = 10;
     const initValue = counter.value;
     counter.increment();
@@ -16,11 +19,18 @@ describe('CounterComponent', () => {
     });
   })
 
+  it('should navigate after reset', () => {
+    const counter = new CounterComponent(router);
+    counter.reset();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/start');
+  });
+
 });
 
 describe("Angular CounterComponent", () => {
   let component: CounterComponent;
   let fixture: ComponentFixture<CounterComponent>;
+  const router = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
   /*beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +41,10 @@ describe("Angular CounterComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CounterComponent ]
+      declarations: [ CounterComponent ],
+      providers: [
+        { provide: Router, useValue: router }
+      ]
     })
     .compileComponents();
   });

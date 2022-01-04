@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-counter',
@@ -12,6 +13,13 @@ export class CounterComponent implements OnInit {
   @Output()
   incremented = new EventEmitter<number>();
   message = '';
+
+  constructor(private router: Router) {
+  }
+
+  reset(): Promise<boolean> {
+    return this.router.navigateByUrl('/start');
+  }
 
   increment() {
     this.value += 2;
